@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
+using System.IO;
 
 public class C4 : ModuleRules
 {
@@ -8,7 +9,19 @@ public class C4 : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[] 
+		{ 
+			"Core", 
+			"CoreUObject", 
+			"Engine", 
+			"InputCore", 
+			"EnhancedInput" 
+		});
+
+		PublicIncludePaths.AddRange(new string[] 
+		{
+			Path.Combine(ModuleDirectory, "Public")
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
