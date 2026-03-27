@@ -3,3 +3,7 @@
 
 #include "Gamemodes/C4_GameModeBase.h"
 
+void AC4_GameModeBase::AddPlayerToPlayers(AC4_Player* newPlayer)
+{
+
+}

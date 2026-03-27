@@ -3,23 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "C4.h"
-#include "C4_Grid.generated.h"
-
-class UC4_GridLogicBase;
+#include "GameFramework/Pawn.h"
+#include "C4_Player.generated.h"
 
 UCLASS()
-class C4_API AC4_Grid : public AActor
+class C4_API AC4_Player : public APawn
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	AC4_Grid();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UC4_GridLogicBase* GridLogic;
+public:
+	// Sets default values for this pawn's properties
+	AC4_Player();
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,7 +23,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
-
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

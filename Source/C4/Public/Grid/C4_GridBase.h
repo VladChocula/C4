@@ -4,21 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "C4.h"
-#include "C4_Grid.generated.h"
+#include "C4_GridBase.generated.h"
 
 class UC4_GridLogicBase;
 
 UCLASS()
-class C4_API AC4_Grid : public AActor
+class C4_API AC4_GridBase : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AC4_Grid();
+	AC4_GridBase();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UC4_GridLogicBase* GridLogic;
 
 protected:
@@ -29,7 +27,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
-
+private:
 
 };
