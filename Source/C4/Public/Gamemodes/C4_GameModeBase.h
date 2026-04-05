@@ -21,6 +21,16 @@ enum class EC4GameState : uint8
 	PostGame
 };
 
+UENUM(BlueprintType)
+enum class EC4PlayerCountConfig : uint8
+{
+	OneVOne,
+	TwoVTwo,
+	FourPFFA,
+	OnevOnevOnevOne,
+	Solo
+};
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGameStateLeave, EC4GameState, LeavingGameState, EC4GameState, NextGameState);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameStateStart, EC4GameState, EnteringGameState);
 
@@ -45,6 +55,15 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddPlayerToPlayers(AC4_Player* newPlayer);
+
+	UFUNCTION(BlueprintCallable)
+	EC4GameState GetCurrentGameState() const { return CurrentGameState; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetPlayerCountConfig(EC4PlayerCountConfig NewPlayerCountConfig) { PlayerCountConfig = NewPlayerCountConfig; }
+
+	UFUNCTION(BlueprintCallable)
+	EC4PlayerCountConfig GetPlayerCountConfig() const { return PlayerCountConfig; }
 	
 	FPlayerData* GetPlayerFromPlayers();
 
@@ -58,6 +77,14 @@ public:
 
 protected:
 
+	UFUNCTION(BlueprintCallable, Category="Game Mode")
+	virtual void TransitionGameState(EC4GameState NewState);
+
+	UFUNCTION(BlueprintCallable, Category="Game Mode")
+	void PlayerSetup(APlayerController* NewPlayerController);
+
+	virtual void PostLogin(APlayerController* NewPlayerController) override;
+
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
 	TArray<FPlayerData> Players;
@@ -65,8 +92,15 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess="true"), Category = "Game Mode")
 	TSubclassOf<AC4_Player> PlayerClass;
 
-	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"), Category = "Game Mode")
-	float TimerTime = 120.f; //Defaulting to 2 mins.
+	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true"), Category = "Game Mode")
+	EC4GameState CurrentGameState = EC4GameState::PreGame;
 
-	
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = "true"), Category = "Game Mode")
+	EC4PlayerCountConfig PlayerCountConfig = EC4PlayerCountConfig::OneVOne;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess="true"), Category="Spawn Parameters")
+	FVector PlayerSpawnLocation = FVector::ZeroVector;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Spawn Parameters")
+	FRotator PlayerSpawnRotation = FRotator::ZeroRotator;
 };

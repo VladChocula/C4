@@ -17,16 +17,10 @@ public:
 	// Sets default values for this actor's properties
 	AC4_GridBase();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Grid")
 	UC4_GridLogicBase* GridLogic;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-private:
-
 };

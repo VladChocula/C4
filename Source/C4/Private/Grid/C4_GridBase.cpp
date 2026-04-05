@@ -2,12 +2,13 @@
 
 
 #include "Grid/C4_GridBase.h"
+#include "Grid/GridLogic/C4_GridLogicBase.h"
 
 // Sets default values
 AC4_GridBase::AC4_GridBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	GridLogic = CreateDefaultSubobject<UC4_GridLogicBase>(TEXT("GridLogic"));
 
 }
@@ -17,12 +18,5 @@ void AC4_GridBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-// Called every frame
-void AC4_GridBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
