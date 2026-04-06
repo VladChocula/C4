@@ -41,6 +41,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Grid")
 	int32 NumColumns = 7;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Score Logic")
+	int32 BaseSequencePoints = 4;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Score Logic")
+	int32 BaseSequenceLength = 4;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Score Logic")
+	int32 BonusPointsPerExtraPiece = 2;
+
 	UFUNCTION(BlueprintCallable)
 	int32 DropPiece(int32 Column, int32 PlayerID, AC4_Player* ScoringPlayer);
 
@@ -61,7 +70,7 @@ private:
 
 	bool CheckWin(int32 Row, int32 Col, int32 PlayerID);
 
-	UPROPERTY(BLueprintReadOnly, meta=(AllowPrivateAccess="true"), Category="Grid")
+	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true"), Category="Grid")
 	EC4BoardState BoardState = EC4BoardState::Inactive;
 
 	// Sequence scanning
