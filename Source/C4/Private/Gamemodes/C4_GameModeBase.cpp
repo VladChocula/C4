@@ -3,11 +3,25 @@
 
 #include "Gamemodes/C4_GameModeBase.h"
 #include "Player/C4_Player.h"
+#include "Grid/C4_GridBase.h"
+#include "Grid/GridLogic/C4_GridLogicBase.h"
+#include "Kismet/GameplayStatics.h"
 
 void AC4_GameModeBase::AddPlayerToPlayers(AC4_Player* newPlayer)
 {
 	if (!newPlayer) return;
 	Players.Add(FPlayerData{ 0, newPlayer});
+}
+
+void AC4_GameModeBase::UpdatePlayerScore(AC4_Player* ScoringPlayer, float ScoreValue)
+{
+	for (auto& Player : Players)
+	{
+		if (Player.PlayerObj == ScoringPlayer)
+		{
+			Player.PlayerScore += (int32)ScoreValue;
+		}
+	}
 }
 
 FPlayerData* AC4_GameModeBase::GetPlayerFromPlayers()
@@ -67,4 +81,15 @@ void AC4_GameModeBase::PostLogin(APlayerController* NewPlayerController)
 {
 	Super::PostLogin(NewPlayerController);
 	PlayerSetup(NewPlayerController);
+}
+
+void AC4_GameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+	Grid = Cast<AC4_GridBase>(UGameplayStatics::GetActorOfClass(GetWorld(), AC4_GridBase::StaticClass()));
+
+	if (Grid && Grid->GridLogic)
+	{
+		Grid->GridLogic->OnPlayerScored.AddDynamic(this, &AC4_GameModeBase::UpdatePlayerScore);
+	}
 }

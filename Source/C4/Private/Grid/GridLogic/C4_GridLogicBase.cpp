@@ -140,7 +140,7 @@ TArray<TArray<int32>> UC4_GridLogicBase::FindAllSequences(int32 PlayerID)
 				}
 
 				// Only count as a sequence if 4 or more
-				if (Sequence.Num() >= 4)
+				if (Sequence.Num() >= BaseSequenceLength)
 				{
 					//Check if this sequence is already accounted for
 					bool bDuplicate = false;
@@ -172,10 +172,7 @@ TArray<TArray<int32>> UC4_GridLogicBase::FindAllSequences(int32 PlayerID)
 
 int32 UC4_GridLogicBase::ScoreSequence(const TArray<int32>& SequenceIndices)
 {
-	int32 SequenceLength = SequenceIndices.Num();
-	int32 BasePoints = 4; // First 4 Pieces
-	int32 BonusPoints = FMath::Max(0, SequenceLength - 4) * 2; //Each extra = 2pts
-	return BasePoints + BonusPoints;
+	return BaseSequencePoints + FMath::Max(0, SequenceIndices.Num() - BaseSequenceLength) * BonusPointsPerExtraPiece;
 }
 
 void UC4_GridLogicBase::RemoveSequences(const TArray<TArray<int32>>& AllSequences)

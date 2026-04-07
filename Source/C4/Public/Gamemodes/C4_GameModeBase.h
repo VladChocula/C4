@@ -7,6 +7,7 @@
 #include "C4_GameModeBase.generated.h"
 
 class AC4_player;
+class AC4_GridBase;
 
 UENUM(BlueprintType)
 enum class EC4GameState : uint8
@@ -64,6 +65,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	EC4PlayerCountConfig GetPlayerCountConfig() const { return PlayerCountConfig; }
+
+	UFUNCTION(BlueprintCallable, Category = "Score Logic")
+	void UpdatePlayerScore(AC4_Player* ScoringPlayer, float ScoreValue);
 	
 	FPlayerData* GetPlayerFromPlayers();
 
@@ -75,6 +79,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnGameStateStart OnGameStateStart;
 
+	UPROPERTY(BlueprintReadOnly, Category="Grid")
+	AC4_GridBase* Grid;
+
 protected:
 
 	UFUNCTION(BlueprintCallable, Category="Game Mode")
@@ -84,6 +91,8 @@ protected:
 	void PlayerSetup(APlayerController* NewPlayerController);
 
 	virtual void PostLogin(APlayerController* NewPlayerController) override;
+
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
