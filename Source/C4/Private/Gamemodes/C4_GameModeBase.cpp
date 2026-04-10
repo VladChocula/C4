@@ -73,6 +73,7 @@ void AC4_GameModeBase::PlayerSetup(APlayerController* NewPlayerController)
 	if (NewPlayer)
 	{
 		NewPlayerController->Possess(NewPlayer);
+		NewPlayer->SetPlayerID(Players.Num() + 1);
 		AddPlayerToPlayers(NewPlayer);
 	}
 }
